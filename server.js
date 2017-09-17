@@ -6,7 +6,7 @@ const app = express();
 app.set('port', process.env.PORT || 3000);
 // app.use('view engin', 'ejs');
 
-colsokhhs;ohaoaohs;
+// colsokhhs;ohaoaohs;
 
 const PORT = 3000;
 
