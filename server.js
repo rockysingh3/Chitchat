@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const app = express();
-const chitchat = require('./app');
+const chitchat = require('./app/routes');
 
 
 // middleware

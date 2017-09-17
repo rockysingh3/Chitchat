@@ -8,6 +8,17 @@ router.get('/', (req, res, next) => {
 });
 
 
+// rooms route
+router.get('/rooms', (req, res, next) => {
+  res.render('rooms');
+});
+
+// chatroom route
+router.get('/chatroom', (req, res, next) => {
+  res.render('chatroom');
+});
+
+
 
 
 // 404 route
