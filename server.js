@@ -11,10 +11,12 @@ app.use(express.static('public'));
 
 
 
+// all of the routes are rendered here from the app folder
 app.use('/', chitchat.router);
 
 
 
+// listener
 app.listen(app.get('port'), () => {
   console.log("The app is running on port: " + app.get('port'));
 });

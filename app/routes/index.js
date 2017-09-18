@@ -19,7 +19,7 @@ router.get('/chatroom', (req, res, next) => {
 });
 
 
-// 404 route
+// 404 erro route
 router.get('*', (req, res, next) => {
   res.render('404');
 });
