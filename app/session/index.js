@@ -24,7 +24,3 @@ if(process.env.Node_ENV === 'production'){
     saveUninitialized: true
   });
 }
-
-module.exports = {
-  session: session
-}

@@ -1,5 +1,6 @@
 'use strict';
 const router = require('express').Router();
+const passport = require('passport');
 
 
 
@@ -12,13 +13,26 @@ router.get('/', (req, res, next) => {
 
 // rooms route
 router.get('/rooms', (req, res, next) => {
-  res.render('rooms');
+  res.render('rooms', {
+    user: req.user
+  });
 });
 
 // chatroom route
 router.get('/chatroom', (req, res, next) => {
   res.render('chatroom');
 });
+
+
+// route for facebook Oauth
+router.get('/auth/facebook', passport.authenticate('facebook'));
+
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    successRedirect: '/rooms',
+    failureRedirect: '/'
+  })
+);
 
 
 // 404 erro route

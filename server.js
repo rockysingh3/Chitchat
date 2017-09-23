@@ -3,6 +3,11 @@ const express = require('express');
 const app = express();
 const chitchat = require('./app/routes');
 const sessions = require('./app/session');
+const passport = require('passport');
+
+
+// this renders the fb auth
+require('./app/auth')();
 
 
 // middleware
@@ -10,9 +15,13 @@ app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
+
+
 // using sessions
 // this has to be declared before all of the routes
-app.use(sessions.session);
+app.use(sessions);
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 
@@ -27,4 +36,4 @@ app.listen(app.get('port'), () => {
 });
 
 
-// video 52 at 2:17
+// video 55
