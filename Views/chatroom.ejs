@@ -7,16 +7,23 @@
 	<script src="/js/jquery-2.1.4.min.js"></script>
 </head>
 <body>
+
+
 	<div class="container">
+		<%# top panal%>
 		<div class="titlePanel">
-			<h1>chitchat | Topic Goes Here</h1>
+			<h1>chitchat --- Topic Goes Here</h1>
 		</div>
+
+		<%# middle panal with name and rooms%>
 		<div class="controls">
-			<div class="userPicHolder"><img src="/img/user.jpg" alt="John Doe"></div>
-			<p class="userName">John Doe</p>
+			<div class="userPicHolder"><img src="<%= user.profilePic %>" alt="John Doe"></div>
+			<p class="userName"><%= user.fullName %></p>
 			<a href="rooms.htm" id="roomsBtn">Rooms</a>
-			<a href="login.htm" id="logOutBtn">Logout</a>
+			<a href="/logout" id="logOutBtn">Logout</a>
 		</div>
+
+		<%# this is where the message is displayed%>
 		<div class="chatListDiv">
 			<div class="chatMessagesPanel">
 				<div class="chatMessages">
@@ -28,10 +35,14 @@
 				<!-- loop end -->
 				</div>
 				<div class="typePanel">
+					<%# input for the massage%>
 					<input type="text" name="userInput" placeholder="Type here and press enter">
 					<a href="#" id="uploadFile" class="fileUploadBtn">Photo</a>
 				</div>
 			</div>
+
+
+			<%# side panal with list of users%>
 			<div class="chatUsers">
 			<!-- Loop this for chat users -->
 				<div class="userBlock">
