@@ -1,3 +1,8 @@
+body {
+	background-color: green;
+}
+
+
 .container {
 	position:absolute;
 	width: 460px;
@@ -72,6 +77,7 @@ input[name='roomName'] {
 	height: 368px;
 	overflow-x: hidden;
 	overflow-y: scroll;
+	background-color: white;
 }
 
 .roomsList {
@@ -134,4 +140,3 @@ input[name='roomName'] {
 #logOutBtn:hover {
 	background-color: rgb(232, 48, 39);
 }
-
