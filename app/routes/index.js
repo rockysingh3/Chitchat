@@ -1,6 +1,7 @@
 'use strict';
 const router = require('express').Router();
 const passport = require('passport');
+const h = require('../helpers');
 
 
 
@@ -12,19 +13,19 @@ router.get('/', (req, res, next) => {
 
 
 // rooms route
-router.get('/rooms', (req, res, next) => {
+router.get('/rooms', h.isAuthenticated, (req, res, next) => {
   res.render('rooms', {
     user: req.user
   });
 });
 
 // chatroom route
-router.get('/chatroom', (req, res, next) => {
-  res.render('chatroom');
+router.get('/chatroom', h.isAuthenticated, (req, res, next) => {
+  res.render('chatroom', { user: req.user });
 });
 
 
-// route for facebook Oauth
+// routes for facebook Oauth
 router.get('/auth/facebook', passport.authenticate('facebook'));
 
 router.get('/auth/facebook/callback',
@@ -33,6 +34,28 @@ router.get('/auth/facebook/callback',
     failureRedirect: '/'
   })
 );
+
+
+// logout route
+router.get('/logout', (req, res, next) => {
+  // this is provided by passport
+  req.logout();
+  res.redirect('/');
+});
+
+
+// routes for twitter Oauth
+router.get('/auth/twitter', passport.authenticate('twitter'));
+
+router.get('/auth/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect: '/rooms',
+    failureRedirect: '/'
+  })
+);
+
+
+
 
 
 // 404 erro route
