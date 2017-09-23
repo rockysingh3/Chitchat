@@ -54,9 +54,21 @@ let findById = id => {
 
 
 
+// middlewarre that checks if a user is loged in or not
+let isAuthenticated = (req, res, next) => {
+  if(req.isAuthenticated()){
+    next();
+  }else{
+    res.redirect('/');
+  }
+}
+
+
+
 
 module.exports = {
   findOne: findOne,
   createNewUser: createNewUser,
-  findById: findById
+  findById: findById,
+  isAuthenticated: isAuthenticated
 }
