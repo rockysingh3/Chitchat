@@ -34,6 +34,3 @@ app.use('/', chitchat.router);
 app.listen(app.get('port'), () => {
   console.log("The app is running on port: " + app.get('port'));
 });
-
-
-// video 55
