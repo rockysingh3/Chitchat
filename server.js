@@ -10,6 +10,26 @@ const passport = require('passport');
 require('./app/auth')();
 
 
+// this is the IO server instance
+let ioServer = app => {
+  app.locals.chatrooms = [];
+  const server = require('http').Server(app);
+  const io = require('socket.io')(server);
+  // this middleware requests users info from session
+  io.use((socket, next) => {
+    require('./app/session')(socket.request, {}, next);
+  });
+  require('./app/socket')(io, app);
+  return server;
+}
+
+
+
+
+
+
+
+
 // middleware
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
@@ -31,6 +51,7 @@ app.use('/', chitchat.router);
 
 
 // listener
-app.listen(app.get('port'), () => {
+// its listening on the io server
+ioServer(app).listen(app.get('port'), () => {
   console.log("The app is running on port: " + app.get('port'));
 });
