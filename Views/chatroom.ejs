@@ -12,7 +12,10 @@
 			let socket = io('<%= host %>' + '/chatter');
 			let roomID = '<%= roomID %>';
 			let user = '<%= user.fullName %>';
-			let userPic = '<%= user.profilePic %>'
+			let userPic = '<%= user.profilePic %>';
+			let chatUsers = $('.chatUsers');
+			let chatInput = $("input[name='userInput']");
+			let chatMessagesDiv  = $('.chatMessagesDiv');
 
 
 
@@ -22,6 +25,56 @@
 					user,
 					userPic
 				});
+			});
+
+			let userList = user => {
+				return 		`<div class="userBlock">
+									<div class="userPic"><img src="${user.userPic}" alt="${user.user}"></div>
+									<div class="cuserName">${user.user}</div>
+								  </div>`;
+			}
+
+			socket.on('updateUsersList', data => {
+				let parsedData = JSON.parse(data);
+				let usersListData = '';
+				for(let user of parsedData){
+					usersListData += userList(user);
+				}
+				chatUsers.html('').html(usersListData);
+			}); // end of socket.io
+
+
+			// updates the message fild
+			let updateFeed = (userPic, message){
+				let template = `<div class="chatBlock">
+															<div class="userPic"><img src="${userPic}"></div>
+															<div class="chatMsg">${message}</div>
+											 </div>`;
+				$(template).hide().prependTo(chatMessagesDiv).slideDown(200);
+			}
+
+
+
+
+			// reads the input from the user
+			chatInput.on('keyup', function(evt){
+				evt.preventDefault();
+				let messageFld = $(this);
+				if(evt.which === 13 && messageFld.val() !== ''){
+					socket.emit('newMessage', {
+						roomID,
+						user,
+						userPic,
+						message: messageFld.val()
+					});
+					updateFeed(userPic, messageFld.val());
+					messageFld.val(''); //empties the fild after user sends the message
+				}
+			});
+
+			socket.on('inMessage', data => {
+				let parsedData = JSON.parse(data);
+				updateFeed(parsedData.userPic, parsedData.message);
 			});
 		});
 
@@ -50,10 +103,7 @@
 			<div class="chatMessagesPanel">
 				<div class="chatMessages">
 				<!-- Loop this for chat messages -->
-				<div class="chatBlock">
-					<div class="userPic"><img src="/img/user.jpg"></div>
-					<div class="chatMsg">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Deleniti perferendis eius aut nesciunt necessitatibus ad nulla, qui sequi, id nam. Possimus odit aut nisi veritatis amet distinctio id officiis ipsam!</div>
-				</div>
+
 				<!-- loop end -->
 				</div>
 				<div class="typePanel">
@@ -68,7 +118,7 @@
 			<div class="chatUsers">
 			<!-- Loop this for chat users -->
 				<div class="userBlock">
-					<div class="userPic"><img src="./img/user.jpg" alt="John Doe"></div>
+					<div class="userPic"><img src="/img/user.jpg" alt="John Doe"></div>
 					<div class="cuserName">John Doe</div>
 				</div>
 			<!-- loop end -->
