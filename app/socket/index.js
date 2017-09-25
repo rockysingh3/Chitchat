@@ -35,7 +35,21 @@ module.exports = (io, app) => {
         let usersList = h.addUserToRoom(allrooms, data, socket);
 
         // Update the list of active users
-
+        console.log('you here so far');
+        socket.broadcast.to(data.roomID).emit('updateUsersList', JSON.stringify(usersList.users));
+        socket.emit('updateUsersList', JSON.stringify(usersList.users));
       });
+
+      // when a user exits delete him from the list of users
+      socket.on('disconnect', () => {
+        let room = h.removeUserFromRoom(allrooms, socket);
+        socket.broadcast.to(room.roomID).emit('updateUsersList', JSON.stringify(room.users));
+      });
+
+
+      // when a new message arrives
+       socket.on('newMessage', data => {
+         socket.to(data.roomID).emit('inMessage', JSON.stringify(data));
+       });
   });
 }
